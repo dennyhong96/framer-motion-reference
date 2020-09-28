@@ -29,7 +29,15 @@ const pathVariants = {
 const Header = () => {
   return (
     <header>
-      <div className="logo">
+      <motion.div
+        className="logo"
+        // Enable dragging on element
+        drag
+        // How much offset from origin position element is allowed to go
+        dragConstraints={{ left: 0, top: 0, right: 250, bottom: 250 }}
+        // How hard element is to drag around
+        dragElastic={1}
+      >
         <motion.svg
           variants={svgVariants}
           initial="hidden"
@@ -49,7 +57,7 @@ const Header = () => {
             d="M50 30 L50 -10 C50 -10 90 -10 90 30 Z"
           />
         </motion.svg>
-      </div>
+      </motion.div>
       <motion.div
         initial={{ y: -250 }}
         animate={{ y: -10 }}
