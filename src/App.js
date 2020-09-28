@@ -1,5 +1,6 @@
 import React, { Fragment, useState } from "react";
-import { Route, Switch } from "react-router-dom";
+import { Route, Switch, useLocation } from "react-router-dom";
+import { AnimatePresence } from "framer-motion";
 
 import Header from "./components/Header";
 import Home from "./components/Home";
@@ -8,6 +9,7 @@ import Toppings from "./components/Toppings";
 import Order from "./components/Order";
 
 const App = () => {
+  const location = useLocation();
   const [pizza, setPizza] = useState({ base: "", toppings: [] });
 
   const addBase = (base) => {
@@ -27,20 +29,22 @@ const App = () => {
   return (
     <Fragment>
       <Header />
-      <Switch>
-        <Route path="/base">
-          <Base addBase={addBase} pizza={pizza} />
-        </Route>
-        <Route path="/toppings">
-          <Toppings addTopping={addTopping} pizza={pizza} />
-        </Route>
-        <Route path="/order">
-          <Order pizza={pizza} />
-        </Route>
-        <Route path="/">
-          <Home />
-        </Route>
-      </Switch>
+      <AnimatePresence exitBeforeEnter>
+        <Switch location={location} key={location.key}>
+          <Route exact path="/base">
+            <Base addBase={addBase} pizza={pizza} />
+          </Route>
+          <Route exact path="/toppings">
+            <Toppings addTopping={addTopping} pizza={pizza} />
+          </Route>
+          <Route exact path="/order">
+            <Order pizza={pizza} />
+          </Route>
+          <Route exact path="/">
+            <Home />
+          </Route>
+        </Switch>
+      </AnimatePresence>
     </Fragment>
   );
 };
